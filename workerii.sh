@@ -6,6 +6,8 @@ free -h
 
 # FALTA VERIFICACIÓ
 
+hostnamectl set-hostname workerii
+
 # COMPROVACIÓ FIREWALL
 ## Firewall: ufw
 ufw status 2>/dev/null
