@@ -164,8 +164,8 @@ grep 'plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options' /etc
 ## Actualització correcte de contenidor pause
 
 # ctr images ls | grep pause
-ctr images pull registry.k8s.io/pause:3.9
-sed -i 's/\bpause:3\.6\b/pause3\.9/' /etc/containerd/config.toml
+# ctr images pull registry.k8s.io/pause:3.9
+# sed -i 's/\bpause:3\.6\b/pause3\.9/' /etc/containerd/config.toml
 
 
 # FALTA ACABAR VERIFICACIÓ ** Sortida esperada: SystemdCgroup = true **
