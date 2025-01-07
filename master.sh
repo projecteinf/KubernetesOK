@@ -118,6 +118,8 @@ fi
 
 echo "SUCCESS: kubeadm installed"
 
+apt install kubectl -y
+
 ## Verificació instal·lació kubectl
 
 kubectl version --client 2>/dev/null
