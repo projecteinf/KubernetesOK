@@ -230,11 +230,17 @@ kubeadm init --apiserver-advertise-address=172.20.1.1 --pod-network-cidr=10.244.
 
 # CONFIGURACIÓ CALICO
 
-curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico.yaml
-sed -i '/- name: CALICO_IPV4POOL_CIDR/{n;s|value: ".*"|value: "10.244.0.0/16"|}' calico.yaml
-kubectl apply -f calico.yaml
+## curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico.yaml
+## sed -i '/- name: CALICO_IPV4POOL_CIDR/{n;s|value: ".*"|value: "10.244.0.0/16"|}' calico.yaml
+## kubectl apply -f calico.yaml
 
-export KUBECONFIG=/etc/kubernetes/admin.conf
+# La configuració de calico no m'ha funcionat en el script. L'he hagut d'executar de forma manual
 
-kubectl get pods -n kube-system
+kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico.yaml
+
+# L'exportació de la variable KUBECONFIG no funciona. Ho farà en el bash que s'està executant el script, no 
+# en el que s'executa kubectl . Com a conseqüència kubectl get pods... tampoc s'executarà de forma correcte
+## export KUBECONFIG=/etc/kubernetes/admin.conf
+
+## kubectl get pods -n kube-system
 
