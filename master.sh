@@ -230,11 +230,24 @@ kubeadm init --apiserver-advertise-address=172.20.1.1 --pod-network-cidr=10.244.
 
 # CONFIGURACIÓ CALICO
 
-## curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico.yaml
+curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico.yaml
 ## sed -i '/- name: CALICO_IPV4POOL_CIDR/{n;s|value: ".*"|value: "10.244.0.0/16"|}' calico.yaml
 ## kubectl apply -f calico.yaml
 
 # La configuració de calico no m'ha funcionat en el script. L'he hagut d'executar de forma manual
+
+# Obtenir imatges que utilitzar calico
+
+grep image: calico.yaml
+
+# Descarregar imatges per calico
+
+ctr image pull docker.io/calico/node:v3.25.1
+ctr image pull docker.io/calico/cni:v3.25.1
+ctr image pull docker.io/calico/kube-controllers:v3.25.1
+# ctr image pull k8s.gcr.io/coredns/coredns:v1.10.1
+
+
 
 kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico.yaml
 
