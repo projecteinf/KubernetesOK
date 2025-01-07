@@ -51,7 +51,10 @@ iface enp1s0 inet static
 	netmask 255.255.0.0
 " | tee /etc/network/interfaces
 
+ifdown enp1s0
+ifup enp1s0
 
+# FALTA VERIFICACIÓ
 # CONFIGURACIÓ DNS A TRAVÉS DE FITXER HOSTS
 
 echo "172.20.1.1      master
@@ -158,6 +161,13 @@ fi
 
 grep 'plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options' /etc/containerd/config.toml -A 12 | grep SystemdCgroup
 
+## Actualització correcte de contenidor pause
+
+# ctr images ls | grep pause
+ctr images pull registry.k8s.io/pause:3.9
+sed -i 's/\bpause:3\.6\b/pause3\.9/' /etc/containerd/config.toml
+
+
 # FALTA ACABAR VERIFICACIÓ ** Sortida esperada: SystemdCgroup = true **
 # Verificar per cotains true
 
@@ -202,4 +212,16 @@ echo "net.ipv4.ip_forward = 1" | tee -a /etc/sysctl.conf
 sysctl -p
 
 # FALTA VERIFICACIÓ
+
+# INICIALITZACIÓ CLUSTER
+
+kubeadm init --apiserver-advertise-address=172.20.1.1 --pod-network-cidr=10.244.0.0/16 >> joinCluster.txt
+
+# CONFIGURACIÓ CALICO
+
+curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico.yaml
+sed -i '/- name: CALICO_IPV4POOL_CIDR/{n;s|value: ".*"|value: "10.244.0.0/16"|}' calico.yaml
+kubectl apply -f calico.yaml
+
+kubectl get pods -n kube-system
 
