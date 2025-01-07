@@ -145,7 +145,7 @@ apt install -y containerd
 # CONFIGURACIÓ PER DEFECTE SISTEMA DE CONTENIDORS
 
 mkdir -p /etc/containerd
-containerd config default | sudo tee /etc/containerd/config.toml
+containerd config default | tee /etc/containerd/config.toml
 
 CONFIG_FILE="/etc/containerd/config.toml"
 
