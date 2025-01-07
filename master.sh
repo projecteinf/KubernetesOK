@@ -140,7 +140,16 @@ apt-mark hold kubectl
 
 # INSTAL·LACIÓ SISTEMA CONTENIDORS
 
-apt install -y containerd
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+https://download.docker.com/linux/debian $(lsb_release -cs) stable" | \
+tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+apt update
+apt install containerd.io
+
 
 # CONFIGURACIÓ PER DEFECTE SISTEMA DE CONTENIDORS
 
@@ -222,6 +231,8 @@ kubeadm init --apiserver-advertise-address=172.20.1.1 --pod-network-cidr=10.244.
 curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico.yaml
 sed -i '/- name: CALICO_IPV4POOL_CIDR/{n;s|value: ".*"|value: "10.244.0.0/16"|}' calico.yaml
 kubectl apply -f calico.yaml
+
+export KUBECONFIG=/etc/kubernetes/admin.conf
 
 kubectl get pods -n kube-system
 
