@@ -162,3 +162,21 @@ echo "net.ipv4.ip_forward = 1" | tee -a /etc/sysctl.conf
 sysctl -p
 
 # FALTA VERIFICACIÓ
+
+iptables -P INPUT ACCEPT
+iptables -P OUTPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -F
+
+
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+https://download.docker.com/linux/debian $(lsb_release -cs) stable" | \
+tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+apt update
+apt install containerd.io
+
+
