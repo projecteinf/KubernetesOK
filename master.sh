@@ -242,14 +242,14 @@ grep image: calico.yaml
 
 # Descarregar imatges per calico
 
-ctr image pull docker.io/calico/node:v3.25.1
-ctr image pull docker.io/calico/cni:v3.25.1
-ctr image pull docker.io/calico/kube-controllers:v3.25.1
+# ctr image pull docker.io/calico/node:v3.25.1
+# ctr image pull docker.io/calico/cni:v3.25.1
+# ctr image pull docker.io/calico/kube-controllers:v3.25.1
 # ctr image pull k8s.gcr.io/coredns/coredns:v1.10.1
 
 
 
-kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico.yaml
+# kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico.yaml
 
 # L'exportació de la variable KUBECONFIG no funciona. Ho farà en el bash que s'està executant el script, no 
 # en el que s'executa kubectl . Com a conseqüència kubectl get pods... tampoc s'executarà de forma correcte
