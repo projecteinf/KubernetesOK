@@ -1,0 +1,5 @@
+auto enp1s0
+iface enp1s0 inet static
+    address 172.20.1.1
+    netmask 255.255.0.0
+    post-up ip route add 172.20.0.0/16 dev enp1s0
