@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: odoo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: odoo
+  template:
+    metadata:
+      labels:
+        app: odoo
+    spec:
+      containers:
+      - name: odoo
+        image: odoo:16  # Imatge oficial d'Odoo
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/odoo/odoo.conf
+          subPath: odoo.conf
+      volumes:
+      - name: config-volume
+        configMap:
+          name: odoo-config

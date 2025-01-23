@@ -1,1 +1,1 @@
-kubectl exec -it odoo-7f86c485fc-fdgvz -- odoo -d odoo --init=base --load-language=ca
+kubectl exec -it $(kubectl get pods | head -n2 | tail -n1 | cut -d' ' -f1) -- odoo -d odoo --init=base --load-language=ca
