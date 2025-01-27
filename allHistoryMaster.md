@@ -1,3 +1,4 @@
+```bash
     1  cd /etc/NetworkManager/system-connections/
     2  vi ens4.nmconnection 
     3  hostname
@@ -428,3 +429,4 @@
   428  kubectl get pods -n calico-system
   429  clear
   430  history > allHistory.txt
+```
