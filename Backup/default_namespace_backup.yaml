@@ -1,0 +1,839 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: 5916fdacef69223a0196d64e22c7043613354086ea72ce7b23c22b2e24b5d04a
+      cni.projectcalico.org/podIP: 10.244.134.141/32
+      cni.projectcalico.org/podIPs: 10.244.134.141/32
+    creationTimestamp: "2025-01-23T17:07:18Z"
+    generateName: odoo-789c44686c-
+    labels:
+      app: odoo
+      pod-template-hash: 789c44686c
+    name: odoo-789c44686c-q6xxc
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: odoo-789c44686c
+      uid: 33dd9029-5b67-4c74-ad2e-8c164188f919
+    resourceVersion: "91020"
+    uid: d495e390-bc65-4075-bebd-fc3b5bc38cad
+  spec:
+    containers:
+    - image: odoo:16
+      imagePullPolicy: IfNotPresent
+      name: odoo
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /etc/odoo/odoo.conf
+        name: config-volume
+        subPath: odoo.conf
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-q8pw8
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: workeri
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - configMap:
+        defaultMode: 420
+        name: odoo-config
+      name: config-volume
+    - name: kube-api-access-q8pw8
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-01-27T11:40:06Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-01-23T17:07:18Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-01-27T11:40:06Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-01-27T11:40:06Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-01-23T17:07:18Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://eefc169d2c02fe96e44e59e0cb2f6f9820110918fb7657a0d523b5090a9869e4
+      image: docker.io/library/odoo:16
+      imageID: docker.io/library/odoo@sha256:f3dc7da42bb634874a0fd30959436e8564495bfb69b075ebf5a0de98837fc737
+      lastState:
+        terminated:
+          containerID: containerd://cf2e090f3a573b5808a833bf6f75954584dbe2e694aa6d4ace5d0d76840c8d04
+          exitCode: 255
+          finishedAt: "2025-01-27T11:39:16Z"
+          reason: Unknown
+          startedAt: "2025-01-23T19:20:32Z"
+      name: odoo
+      ready: true
+      restartCount: 2
+      started: true
+      state:
+        running:
+          startedAt: "2025-01-27T11:40:06Z"
+    hostIP: 172.20.1.20
+    hostIPs:
+    - ip: 172.20.1.20
+    phase: Running
+    podIP: 10.244.134.141
+    podIPs:
+    - ip: 10.244.134.141
+    qosClass: BestEffort
+    startTime: "2025-01-23T17:07:18Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: 48c1174658b7699c74f875a7873f81f8940103b6045c8476020bcc6dc72d33f6
+      cni.projectcalico.org/podIP: 10.244.16.169/32
+      cni.projectcalico.org/podIPs: 10.244.16.169/32
+    creationTimestamp: "2025-01-23T15:43:13Z"
+    generateName: postgres-7dd55b8d88-
+    labels:
+      app: postgres
+      pod-template-hash: 7dd55b8d88
+    name: postgres-7dd55b8d88-g4pbs
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: postgres-7dd55b8d88
+      uid: 205603d9-2dfe-42d3-84b7-8ac9a9d6b5a9
+    resourceVersion: "91195"
+    uid: 76687b64-992f-4a65-8b03-60da902baf08
+  spec:
+    containers:
+    - env:
+      - name: POSTGRES_DB
+        value: odoo
+      - name: POSTGRES_USER
+        value: odoo
+      - name: POSTGRES_PASSWORD
+        value: odoo_password
+      image: postgres:15
+      imagePullPolicy: IfNotPresent
+      name: postgres
+      ports:
+      - containerPort: 5432
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/lib/postgresql/data
+        name: postgres-data
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-dx5vg
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: k8smaster
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: postgres-data
+      persistentVolumeClaim:
+        claimName: postgres-pvc
+    - name: kube-api-access-dx5vg
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-01-27T11:40:23Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-01-23T15:48:58Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-01-27T11:40:23Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-01-27T11:40:23Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-01-23T15:48:58Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://0059d500212c828f1ed17f1ba75a593fdd0afc7ab955ab88e11cd5fe3c1216f6
+      image: docker.io/library/postgres:15
+      imageID: docker.io/library/postgres@sha256:68bb947ec37e6cfd5486c51ecdd122babc3ddaedb490acb913130a7e325d36c5
+      lastState:
+        terminated:
+          containerID: containerd://3782a32cff4b1f73ef742f90a83daf1a813a28abad0cd29c6a3b6bf0d73ac14a
+          exitCode: 255
+          finishedAt: "2025-01-27T11:39:14Z"
+          reason: Unknown
+          startedAt: "2025-01-23T19:20:29Z"
+      name: postgres
+      ready: true
+      restartCount: 3
+      started: true
+      state:
+        running:
+          startedAt: "2025-01-27T11:40:22Z"
+    hostIP: 192.168.122.12
+    hostIPs:
+    - ip: 192.168.122.12
+    phase: Running
+    podIP: 10.244.16.169
+    podIPs:
+    - ip: 10.244.16.169
+    qosClass: BestEffort
+    startTime: "2025-01-23T15:48:58Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2025-01-22T14:51:54Z"
+    labels:
+      component: apiserver
+      provider: kubernetes
+    name: kubernetes
+    namespace: default
+    resourceVersion: "235"
+    uid: df6dcc79-962d-4d49-87f4-3ad10aaf3e50
+  spec:
+    clusterIP: 10.96.0.1
+    clusterIPs:
+    - 10.96.0.1
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 6443
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"odoo","namespace":"default"},"spec":{"ports":[{"nodePort":30000,"port":8069,"protocol":"TCP","targetPort":8069}],"selector":{"app":"odoo"},"type":"NodePort"}}
+    creationTimestamp: "2025-01-23T14:43:31Z"
+    name: odoo
+    namespace: default
+    resourceVersion: "40343"
+    uid: 9e342f8e-0cd7-445d-967c-fd121242420a
+  spec:
+    clusterIP: 10.98.170.57
+    clusterIPs:
+    - 10.98.170.57
+    externalTrafficPolicy: Cluster
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - nodePort: 30000
+      port: 8069
+      protocol: TCP
+      targetPort: 8069
+    selector:
+      app: odoo
+    sessionAffinity: None
+    type: NodePort
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"postgres","namespace":"default"},"spec":{"ports":[{"port":5432,"targetPort":5432}],"selector":{"app":"postgres"},"type":"ClusterIP"}}
+    creationTimestamp: "2025-01-22T18:31:55Z"
+    name: postgres
+    namespace: default
+    resourceVersion: "15436"
+    uid: aa9a1d76-2f84-4e7c-9e71-ad22175a95d1
+  spec:
+    clusterIP: 10.105.249.160
+    clusterIPs:
+    - 10.105.249.160
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 5432
+      protocol: TCP
+      targetPort: 5432
+    selector:
+      app: postgres
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "5"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"odoo","namespace":"default"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"odoo"}},"template":{"metadata":{"labels":{"app":"odoo"}},"spec":{"containers":[{"image":"odoo:16","name":"odoo","volumeMounts":[{"mountPath":"/etc/odoo/odoo.conf","name":"config-volume","subPath":"odoo.conf"}]}],"volumes":[{"configMap":{"name":"odoo-config"},"name":"config-volume"}]}}}}
+    creationTimestamp: "2025-01-22T18:32:04Z"
+    generation: 5
+    name: odoo
+    namespace: default
+    resourceVersion: "91024"
+    uid: 2581676e-693a-4297-bc6e-9471a2b5f4d1
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: odoo
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: odoo
+      spec:
+        containers:
+        - image: odoo:16
+          imagePullPolicy: IfNotPresent
+          name: odoo
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/odoo/odoo.conf
+            name: config-volume
+            subPath: odoo.conf
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: odoo-config
+          name: config-volume
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2025-01-22T18:32:04Z"
+      lastUpdateTime: "2025-01-23T16:52:25Z"
+      message: ReplicaSet "odoo-789c44686c" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2025-01-27T11:40:06Z"
+      lastUpdateTime: "2025-01-27T11:40:06Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 5
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"postgres","namespace":"default"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"postgres"}},"template":{"metadata":{"labels":{"app":"postgres"}},"spec":{"containers":[{"env":[{"name":"POSTGRES_DB","value":"odoo"},{"name":"POSTGRES_USER","value":"odoo"},{"name":"POSTGRES_PASSWORD","value":"odoo_password"}],"image":"postgres:15","name":"postgres","ports":[{"containerPort":5432}],"volumeMounts":[{"mountPath":"/var/lib/postgresql/data","name":"postgres-data"}]}],"volumes":[{"name":"postgres-data","persistentVolumeClaim":{"claimName":"postgres-pvc"}}]}}}}
+    creationTimestamp: "2025-01-23T15:13:20Z"
+    generation: 1
+    name: postgres
+    namespace: default
+    resourceVersion: "91199"
+    uid: 8ebf5683-8524-4cad-8563-d581ac9c7eb4
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: postgres
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: postgres
+      spec:
+        containers:
+        - env:
+          - name: POSTGRES_DB
+            value: odoo
+          - name: POSTGRES_USER
+            value: odoo
+          - name: POSTGRES_PASSWORD
+            value: odoo_password
+          image: postgres:15
+          imagePullPolicy: IfNotPresent
+          name: postgres
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: postgres-data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2025-01-23T15:43:14Z"
+      lastUpdateTime: "2025-01-23T15:49:19Z"
+      message: ReplicaSet "postgres-7dd55b8d88" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2025-01-27T11:40:23Z"
+      lastUpdateTime: "2025-01-27T11:40:23Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "3"
+    creationTimestamp: "2025-01-23T16:40:19Z"
+    generation: 2
+    labels:
+      app: odoo
+      pod-template-hash: 66958658d9
+    name: odoo-66958658d9
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: odoo
+      uid: 2581676e-693a-4297-bc6e-9471a2b5f4d1
+    resourceVersion: "55543"
+    uid: 08f12c4e-4e4d-4025-97f3-74e73e27cbc7
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: odoo
+        pod-template-hash: 66958658d9
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: odoo
+          pod-template-hash: 66958658d9
+      spec:
+        containers:
+        - image: odoo:16
+          imagePullPolicy: IfNotPresent
+          name: odoo
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/odoo/odoo.conf
+            name: config-volume
+            subPath: odoo.conf
+          - mountPath: /var/lib/odoo/addons/16.0
+            name: addons-volume
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: odoo-config
+          name: config-volume
+        - emptyDir: {}
+          name: addons-volume
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "4"
+    creationTimestamp: "2025-01-23T16:48:59Z"
+    generation: 2
+    labels:
+      app: odoo
+      pod-template-hash: 6c85dfcf95
+    name: odoo-6c85dfcf95
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: odoo
+      uid: 2581676e-693a-4297-bc6e-9471a2b5f4d1
+    resourceVersion: "56019"
+    uid: ad821417-0591-45e9-adf8-d8993f850c5e
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: odoo
+        pod-template-hash: 6c85dfcf95
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: odoo
+          pod-template-hash: 6c85dfcf95
+      spec:
+        containers:
+        - image: odoo:16
+          imagePullPolicy: IfNotPresent
+          name: odoo
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/odoo/odoo.conf
+            name: config-volume
+            subPath: odoo.conf
+          - mountPath: /var/lib/odoo/addons/16.0
+            name: addons-volume
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: odoo-config
+          name: config-volume
+        - hostPath:
+            path: /var/lib/odoo/addons/16.0
+            type: ""
+          name: addons-volume
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2025-01-22T18:32:04Z"
+    generation: 2
+    labels:
+      app: odoo
+      pod-template-hash: 784b69b4d7
+    name: odoo-784b69b4d7
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: odoo
+      uid: 2581676e-693a-4297-bc6e-9471a2b5f4d1
+    resourceVersion: "51900"
+    uid: 20e9e152-57d7-407a-9d24-df20ebeee643
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: odoo
+        pod-template-hash: 784b69b4d7
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: odoo
+          pod-template-hash: 784b69b4d7
+      spec:
+        containers:
+        - args:
+          - -i
+          - base
+          env:
+          - name: HOST
+            value: postgres
+          - name: USER
+            value: odoo
+          - name: PASSWORD
+            value: odoo
+          - name: DATABASE
+            value: odoo
+          image: odoo:16
+          imagePullPolicy: IfNotPresent
+          name: odoo
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "5"
+      deployment.kubernetes.io/revision-history: "2"
+    creationTimestamp: "2025-01-23T16:18:55Z"
+    generation: 3
+    labels:
+      app: odoo
+      pod-template-hash: 789c44686c
+    name: odoo-789c44686c
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: odoo
+      uid: 2581676e-693a-4297-bc6e-9471a2b5f4d1
+    resourceVersion: "91021"
+    uid: 33dd9029-5b67-4c74-ad2e-8c164188f919
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: odoo
+        pod-template-hash: 789c44686c
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: odoo
+          pod-template-hash: 789c44686c
+      spec:
+        containers:
+        - image: odoo:16
+          imagePullPolicy: IfNotPresent
+          name: odoo
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/odoo/odoo.conf
+            name: config-volume
+            subPath: odoo.conf
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: odoo-config
+          name: config-volume
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 3
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2025-01-23T15:13:20Z"
+    generation: 1
+    labels:
+      app: postgres
+      pod-template-hash: 7dd55b8d88
+    name: postgres-7dd55b8d88
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: postgres
+      uid: 8ebf5683-8524-4cad-8563-d581ac9c7eb4
+    resourceVersion: "91198"
+    uid: 205603d9-2dfe-42d3-84b7-8ac9a9d6b5a9
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: postgres
+        pod-template-hash: 7dd55b8d88
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: postgres
+          pod-template-hash: 7dd55b8d88
+      spec:
+        containers:
+        - env:
+          - name: POSTGRES_DB
+            value: odoo
+          - name: POSTGRES_USER
+            value: odoo
+          - name: POSTGRES_PASSWORD
+            value: odoo_password
+          image: postgres:15
+          imagePullPolicy: IfNotPresent
+          name: postgres
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: postgres-data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+kind: List
+metadata:
+  resourceVersion: ""
